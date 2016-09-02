@@ -4,10 +4,15 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
 >
-    <TextView
-            android:layout_width="fill_parent"
+    <Switch
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello World, MyActivity"
-    />
+            android:text="开关热点"
+            android:id="@+id/switch1"/>
+    <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="是否连接热点"
+            android:id="@+id/switch2"/>
 </LinearLayout>
 
