@@ -7,21 +7,17 @@
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button1"/>
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button2"/>
+            android:text="选择图片"
+            android:id="@+id/btn_choice_pic" android:layout_gravity="center_horizontal"/>
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="发送图片"
-            android:id="@+id/send_pic"/>
-    <Button
+            android:id="@+id/btn_send_pic" android:layout_gravity="center_horizontal"/>
+    <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="接收图片"
-            android:id="@+id/show_pic"/>
+            android:id="@+id/imageView" android:layout_gravity="center_horizontal"/>
+
+
 </LinearLayout>

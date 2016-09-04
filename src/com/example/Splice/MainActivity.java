@@ -16,7 +16,7 @@ public class MainActivity extends Activity {
     public static final String TAG = "MainActivity";
 
     private Button mBtn1, mBtn2;
-
+    private Button btnSendPic,btnShowPic;
     private WifiAdmin mWifiAdmin;
 
     private Context mContext = null;
@@ -32,6 +32,29 @@ public class MainActivity extends Activity {
         mBtn2 = (Button)findViewById(R.id.button2);
         mBtn1.setText("点击连接Wifi");
         mBtn2.setText("点击创建Wifi热点");
+
+        btnSendPic = (Button)findViewById(R.id.send_pic);
+        btnShowPic = (Button)findViewById(R.id.show_pic);
+
+        btnSendPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, SendPicActivity.class);
+                MainActivity.this.startActivity(intent);
+                finish();
+            }
+        });
+
+        btnShowPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ShowPicActivity.class);
+                MainActivity.this.startActivity(intent);
+                finish();
+            }
+        });
+
+
         mBtn1.setOnClickListener(new Button.OnClickListener() {
 
             @Override
