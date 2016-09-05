@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 
 /**
@@ -20,13 +21,19 @@ import java.io.FileNotFoundException;
 public class SendPicActivity extends Activity{
     private Button btnChoicePic;
     private Button btnSendPic;
+    private Bitmap bitmap;
+    private MinaClient minaClient ;
+    private byte[] picByte;
 
     //初始化
     private void init(){
         btnChoicePic = (Button)findViewById(R.id.btn_choice_pic);
         btnSendPic = (Button)findViewById(R.id.btn_send_pic);
-        btnChoicePic.setOnClickListener(new MyOnClickListener());
-        btnChoicePic.setOnClickListener(new MyOnClickListener());
+
+        MyOnClickListener myOnClickListener = new MyOnClickListener();
+
+        btnChoicePic.setOnClickListener(myOnClickListener);
+        btnSendPic.setOnClickListener(myOnClickListener);
 //        btnChoicePic.setoncl
     }
 
@@ -36,6 +43,7 @@ public class SendPicActivity extends Activity{
         setContentView(R.layout.send_pic);
         //初始化
         init();
+
     }
 
 
@@ -60,11 +68,44 @@ public class SendPicActivity extends Activity{
                 ImageView imageView = (ImageView) findViewById(R.id.imageView);
                 /* 将Bitmap设定到ImageView */
                 imageView.setImageBitmap(bitmap);
+
+                this.bitmap = bitmap;
+
+                //读取图片到ByteArrayOutputStream
+//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//                picByte = baos.toByteArray();
+
+
             } catch (FileNotFoundException e) {
                 Log.e("Exception", e.getMessage(),e);
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    private void sendPic(){
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                minaClient = new MinaClient(new SimpleListener() {
+                    @Override
+                    public void onSuccess(Object obj) {
+
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+
+                    }
+                });
+
+                minaClient.sendPic(bitmap);
+            }
+        }).start();
+
     }
 
     class MyOnClickListener implements View.OnClickListener {
@@ -75,6 +116,7 @@ public class SendPicActivity extends Activity{
                     choicPic();
                     break;
                 case R.id.btn_send_pic:
+                    sendPic();
                     break;
             }
         }
