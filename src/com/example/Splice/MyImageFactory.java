@@ -11,10 +11,12 @@ import org.apache.mina.filter.codec.ProtocolEncoder;
 public class MyImageFactory implements ProtocolCodecFactory{
     private MyImageEncoder myImageEncoder;
     private MyImageDecoder myImageDecoder;
+    private MyImageSimpleDecoder myImagSimpleDecoder;
 
     public MyImageFactory(){
         myImageEncoder = new MyImageEncoder();
         myImageDecoder = new MyImageDecoder();
+        myImagSimpleDecoder = new MyImageSimpleDecoder();
     }
 
     @Override

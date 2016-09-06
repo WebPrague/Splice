@@ -3,28 +3,31 @@ package com.example.Splice;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.*;
+import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
-
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 /**
  * Created by HUPENG on 2016/9/4.
  */
-public class SendPicActivity extends Activity{
+public class SendPicActivity extends Activity implements SurfaceHolder.Callback,Camera.PreviewCallback {
     private Button btnChoicePic;
     private Button btnSendPic;
     private Bitmap bitmap;
     private MinaClient minaClient ;
     private byte[] picByte;
-
+    private Camera camera = null;
+    private SurfaceHolder surfaceHolder ;
     //初始化
     private void init(){
         btnChoicePic = (Button)findViewById(R.id.btn_choice_pic);
@@ -44,6 +47,10 @@ public class SendPicActivity extends Activity{
         //初始化
         init();
 
+//
+        SurfaceView view = (SurfaceView) findViewById(R.id.surface_view);
+        view.getHolder().addCallback(this);
+        view.getHolder().setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
     }
 
 
@@ -90,23 +97,73 @@ public class SendPicActivity extends Activity{
         new Thread(new Runnable() {
             @Override
             public void run() {
-                minaClient = new MinaClient(new SimpleListener() {
-                    @Override
-                    public void onSuccess(Object obj) {
+                if (minaClient == null){
+                    minaClient = new MinaClient(new SimpleListener() {
+                        @Override
+                        public void onSuccess(Object obj) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onFailure(String msg) {
+                        @Override
+                        public void onFailure(String msg) {
 
-                    }
-                });
-
+                        }
+                    });
+                }
                 minaClient.sendPic(bitmap);
             }
         }).start();
 
     }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder surfaceHolder) {
+
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        try{
+            camera = Camera.open();
+            camera.setPreviewDisplay(holder);
+            Camera.Parameters params = camera.getParameters();
+            params.setPreviewSize(352, 288);
+            camera.setParameters(params);
+            camera.startPreview() ;
+            camera.setPreviewCallback(this);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+        if(camera != null) camera.release() ;
+        camera = null ;
+    }
+
+    @Override
+    public void onPreviewFrame(byte[] bytes, Camera camera) {
+        Camera.Size size = camera.getParameters().getPreviewSize();
+        try {
+            YuvImage image = new YuvImage(bytes, ImageFormat.NV21, size.width,
+                    size.height, null);
+            if (image != null) {
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                image.compressToJpeg(new Rect(0, 0, size.width, size.height),
+                        10, stream);
+                Bitmap bmp = BitmapFactory.decodeByteArray(
+                        stream.toByteArray(), 0, stream.size());
+                this.bitmap = bmp;
+                sendPic();
+                stream.close();
+
+            }
+        } catch (Exception ex) {
+            Log.e("Sys", "Error:" + ex.getMessage());
+        }
+    }
+
 
     class MyOnClickListener implements View.OnClickListener {
         @Override
@@ -121,6 +178,7 @@ public class SendPicActivity extends Activity{
             }
         }
     }
+
 
 }
 

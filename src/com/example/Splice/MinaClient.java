@@ -1,5 +1,6 @@
 package com.example.Splice;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 import org.apache.mina.core.future.ConnectFuture;
 import org.apache.mina.core.service.IoHandlerAdapter;
@@ -17,6 +18,7 @@ import java.net.InetSocketAddress;
 public class MinaClient {
     private IoSession session = null;
     private SimpleListener simpleListener;
+    private Bitmap oldBitmap = null;
     public MinaClient(SimpleListener simpleListener){
         this.simpleListener = simpleListener;
         NioSocketConnector connector = new NioSocketConnector();
@@ -29,6 +31,12 @@ public class MinaClient {
 
     public void sendPic(Object obj){
         session.write(obj);
+        Bitmap bitmap = (Bitmap)obj;
+        if (oldBitmap != null){
+            oldBitmap.recycle();
+        }
+        oldBitmap = bitmap;
+
     }
 
     class MyClientHandler extends IoHandlerAdapter {
@@ -51,6 +59,7 @@ public class MinaClient {
         public void messageSent(IoSession session, Object message) throws Exception {
             System.out.println(session.getId());
             System.out.println("messageSent");
+            //session.getService().dispose();
         }
 
         public void sessionClosed(IoSession session) throws Exception {

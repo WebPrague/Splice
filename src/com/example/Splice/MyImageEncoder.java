@@ -31,7 +31,7 @@ public class MyImageEncoder implements ProtocolEncoder{
 //            }
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 1, baos);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] picByte = baos.toByteArray();
 
             int length = picByte.length;
@@ -39,11 +39,12 @@ public class MyImageEncoder implements ProtocolEncoder{
             System.out.println("发送的文件长度：" + length);
 
             IoBuffer ioBuffer;
-            ioBuffer = IoBuffer.allocate(picByte.length+4);
-
+            ioBuffer = IoBuffer.allocate(1024).setAutoExpand(true);
+            ioBuffer.setAutoShrink(true);
             ioBuffer.setAutoExpand(true);
             ioBuffer.putInt(length);
             ioBuffer.put(picByte);
+            ioBuffer.capacity(length+4);
             ioBuffer.flip();
             out.write(ioBuffer);
         }

@@ -8,6 +8,8 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.codec.serialization.ObjectSerializationCodecFactory;
 import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
+import org.apache.mina.filter.logging.LogLevel;
+import org.apache.mina.filter.logging.LoggingFilter;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 
 import java.io.IOException;
@@ -38,9 +40,18 @@ public class MinaServer {
                 acceptor = new NioSocketAcceptor(Runtime.getRuntime().availableProcessors() + 1);
             }
             acceptor.setReuseAddress(true);
-            acceptor.getSessionConfig().setReadBufferSize(2048*10);
+            acceptor.getSessionConfig().setReadBufferSize(8192);
+
             acceptor.setHandler(new MyServerHandler());
             acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new MyImageFactory()));
+
+            LoggingFilter loggingFilter = new LoggingFilter();
+            loggingFilter.setSessionClosedLogLevel(LogLevel.NONE);
+            loggingFilter.setSessionCreatedLogLevel(LogLevel.INFO);
+            loggingFilter.setSessionOpenedLogLevel(LogLevel.INFO);
+            loggingFilter.setMessageReceivedLogLevel(LogLevel.INFO);
+
+            acceptor.getFilterChain().addLast("logging",loggingFilter);
             //acceptor.getSessionConfig().setIdleTime(IdleStatus.READER_IDLE, 5);Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.11
             acceptor.bind(new InetSocketAddress(9191));
 

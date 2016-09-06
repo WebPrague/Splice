@@ -17,8 +17,9 @@ public class ShowPicActivity extends Activity{
 
     private ImageView imageView;
     private MinaServer minaServer;
-    private Bitmap bitmap;
+    private Bitmap bitmap= null;
 
+    private Bitmap old_bitmap= null;
     private void init(){
         imageView = (ImageView)findViewById(R.id.imageView);
         minaServer = MinaServer.getInstant();
@@ -54,7 +55,12 @@ public class ShowPicActivity extends Activity{
 
             //imageView.setImageDrawable(new BitmapDrawable(ImageEncodeUtil.base64ToBitmap((String)msg.obj)));
             //Toast.makeText(ShowPicActivity.this,(String)msg.obj,Toast.LENGTH_LONG).show();
-            imageView.setImageDrawable(new BitmapDrawable((Bitmap)msg.obj));
+            Bitmap bitmap = (Bitmap)msg.obj;
+            imageView.setImageDrawable(new BitmapDrawable(bitmap));
+            if (old_bitmap != null){
+                old_bitmap.recycle();
+            }
+            old_bitmap = bitmap;
             super.handleMessage(msg);
         }
     };
