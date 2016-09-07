@@ -18,6 +18,7 @@ public class MainActivity extends Activity {
     private Button mBtn1, mBtn2;
     private Button btnSendPic,btnShowPic;
     private WifiAdmin mWifiAdmin;
+    private Button btnMina;
 
     private Context mContext = null;
     @Override
@@ -105,6 +106,15 @@ public class MainActivity extends Activity {
 
                 WifiApAdmin wifiAp = new WifiApAdmin(mContext);
                 wifiAp.startWifiAp("\"HotSpot\"", "hhhhhh123");
+            }
+        });
+
+        btnMina = (Button)findViewById(R.id.mina);
+        btnMina.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, MinaActivity.class);
+                MainActivity.this.startActivity(intent);
             }
         });
 

@@ -32,7 +32,7 @@
 
         <activity android:name=".SendPicActivity">
         </activity>
-        <activity android:name=".ShowPicActivity">
-        </activity>
+        <activity android:name=".ShowPicActivity"></activity>
+        <activity android:name=".MinaActivity"></activity>
     </application>
 </manifest>

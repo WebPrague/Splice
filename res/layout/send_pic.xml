@@ -4,20 +4,44 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="选择图片"
-            android:id="@+id/btn_choice_pic" android:layout_gravity="center_horizontal"/>
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="发送图片"
-            android:id="@+id/btn_send_pic" android:layout_gravity="center_horizontal"/>
-    <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView" android:layout_gravity="center_horizontal"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_gravity="center_horizontal">
+        <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="选择图片"
+                android:id="@+id/btn_choice_pic" android:layout_gravity="center_horizontal"/>
+        <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="发送图片"
+                android:id="@+id/btn_send_pic" android:layout_gravity="center_horizontal"/>
+        <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="发送视频"
 
-    <SurfaceView android:layout_width="match_parent" android:layout_height="match_parent" android:id="@+id/surface_view"/>
+                android:id="@+id/btn_send_video"/>
+        <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="停止视频"
+                android:id="@+id/btn_stop_video"/>
+
+    </LinearLayout>
+
+    <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/imageView" android:layout_gravity="center_horizontal"/>
+    <SurfaceView android:layout_width="match_parent" android:layout_height="30dp" android:id="@+id/surface_view"/>
+
+
+
 </LinearLayout>

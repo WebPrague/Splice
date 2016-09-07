@@ -24,4 +24,9 @@
             android:layout_height="wrap_content"
             android:text="接收图片"
             android:id="@+id/show_pic"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="mina界面"
+            android:id="@+id/mina"/>
 </LinearLayout>

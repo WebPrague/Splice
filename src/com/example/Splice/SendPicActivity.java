@@ -28,6 +28,8 @@ public class SendPicActivity extends Activity implements SurfaceHolder.Callback,
     private byte[] picByte;
     private Camera camera = null;
     private SurfaceHolder surfaceHolder ;
+
+
     //初始化
     private void init(){
         btnChoicePic = (Button)findViewById(R.id.btn_choice_pic);
