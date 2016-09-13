@@ -28,6 +28,7 @@ import org.apache.mina.core.session.IoSession;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.util.List;
 
 /**
  * Created by HUPENG on 2016/9/6.
@@ -216,7 +217,7 @@ public class MinaActivity extends Activity implements SurfaceHolder.Callback,Cam
                     choicPic();
                     break;
                 case R.id.btn_send_pic:
-                    sendPic();
+                    sendPic(1);
                     break;
                 case R.id.btn_send_video:
                     if (!videoFlag){
@@ -273,11 +274,28 @@ public class MinaActivity extends Activity implements SurfaceHolder.Callback,Cam
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-
     private void sendPic(){
 
         minaUtil.send(bitmap);
 
+    }
+
+    private void sendPic(int style){
+        List<IoSession>sessions = minaUtil.getSessions();
+        if(style == 1){
+            int pieceWidth = bitmap.getWidth() / 2;
+            int pieceHight = bitmap.getHeight() /2;
+            for (int i = 0 ; i <= sessions.size() ; i ++){
+                Bitmap tempBitmap = OperateImage.imageSplit(bitmap, (i % 2) * pieceWidth,(i / 2) * pieceHight,pieceWidth, pieceHight );
+                if (i < sessions.size()){
+                    minaUtil.send(tempBitmap,sessions.get(i));
+                }else {
+                    imageView.setImageDrawable(new BitmapDrawable(tempBitmap));
+                }
+
+            }
+        }
+        //minaUtil.send(bitmap);
     }
 
     public static Bitmap rotateBitmapByDegree(Bitmap bm, int degree) {

@@ -1,19 +1,14 @@
 package com.example.Splice.Mina;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
-import com.example.Splice.*;
 import com.example.Splice.Listener.SimpleListener;
+import com.example.Splice.MyImageFactory;
 import org.apache.mina.core.future.ConnectFuture;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
-import org.apache.mina.filter.logging.LogLevel;
-import org.apache.mina.filter.logging.LoggingFilter;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 
@@ -292,5 +287,10 @@ public class MinaUtil {
             System.out.println("sessionOpened");
         }
 
+    }
+
+
+    public List<IoSession> getSessions() {
+        return sessions;
     }
 }
