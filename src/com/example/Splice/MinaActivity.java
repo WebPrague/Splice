@@ -275,9 +275,7 @@ public class MinaActivity extends Activity implements SurfaceHolder.Callback,Cam
     }
 
     private void sendPic(){
-
         minaUtil.send(bitmap);
-
     }
 
     private void sendPic(int style){
