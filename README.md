@@ -26,4 +26,4 @@
 
 ## 关于
 - 如何支持作者：点击右上角的"star" 的按钮，是对作者的最大支持。
-- 如有问题或者讨论行人检测算法模型，请邮箱联系：zhangpeng[AT]webprague[DOT]com;
+- 如有问题请邮箱联系：zhangpeng[AT]webprague[DOT]com;
